@@ -1,6 +1,8 @@
 package com.example.loaddist.model;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 @Entity
 @Table(name = "ld_notification_settings")
@@ -35,28 +37,28 @@ public class NotificationSettings {
     @Column(name = "employee_email_subject", length = 500, nullable = false)
     private String employeeEmailSubject = "";
 
-    @Lob
+    @JdbcTypeCode(SqlTypes.LONG32VARCHAR)
     @Column(name = "employee_email_body")
     private String employeeEmailBody;
 
     @Column(name = "manager_email_subject", length = 500, nullable = false)
     private String managerEmailSubject = "";
 
-    @Lob
+    @JdbcTypeCode(SqlTypes.LONG32VARCHAR)
     @Column(name = "manager_email_body")
     private String managerEmailBody;
 
     @Column(name = "manager_goal_setting_january_subject", length = 500, nullable = false)
     private String managerGoalSettingJanuarySubject = "";
 
-    @Lob
+    @JdbcTypeCode(SqlTypes.LONG32VARCHAR)
     @Column(name = "manager_goal_setting_january_body")
     private String managerGoalSettingJanuaryBody;
 
     @Column(name = "employee_goal_setting_january_subject", length = 500, nullable = false)
     private String employeeGoalSettingJanuarySubject = "";
 
-    @Lob
+    @JdbcTypeCode(SqlTypes.LONG32VARCHAR)
     @Column(name = "employee_goal_setting_january_body")
     private String employeeGoalSettingJanuaryBody;
 

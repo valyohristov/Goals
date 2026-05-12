@@ -8,13 +8,13 @@ CREATE TABLE ld_notification_settings (
     from_name VARCHAR(200) NOT NULL DEFAULT 'Goals',
     from_email VARCHAR(320) NOT NULL DEFAULT '',
     employee_email_subject VARCHAR(500) NOT NULL DEFAULT '',
-    employee_email_body TEXT,
+    employee_email_body LONGTEXT NULL,
     manager_email_subject VARCHAR(500) NOT NULL DEFAULT '',
-    manager_email_body TEXT,
+    manager_email_body LONGTEXT NULL,
     manager_goal_setting_january_subject VARCHAR(500) NOT NULL DEFAULT '',
-    manager_goal_setting_january_body TEXT,
+    manager_goal_setting_january_body LONGTEXT NULL,
     employee_goal_setting_january_subject VARCHAR(500) NOT NULL DEFAULT '',
-    employee_goal_setting_january_body TEXT
+    employee_goal_setting_january_body LONGTEXT NULL
 );
 
 INSERT INTO ld_notification_settings (id) VALUES (1);
