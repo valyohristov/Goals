@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title th:text="${title}">Year goals</title>
+  <link rel="stylesheet" href="/styles.css"/>
+</head>
+<body>
+  <main class="container app-shell goals-app" id="goals-app"
+        th:attr="data-initial-year=${initialYear},
+                  data-initial-week=${initialWeekKey},
+                  data-nav-tier=${navTier}">
+    <header class="page-header">
+      <div>
+        <h1 th:text="${title}">Year goals</h1>
+        <p class="subtle">Two annual goals with a monthly plan. Each goal has its own check-ins: use <strong>Check-in</strong> next to February, April, June, August, October, and December in that goal’s table.</p>
+      </div>
+      <nav class="top-nav">
+        <a id="goals-nav-home" href="/">Home</a>
+        <a id="goals-nav-employees" href="/admin/employees" hidden>Manage Employees</a>
+        <a id="goals-nav-projects" href="/admin/projects" hidden>Manage Projects</a>
+        <a id="goals-nav-notifications" href="/admin/notifications" hidden>Notifications</a>
+        <a id="goals-nav-sent-emails" href="/admin/sent-emails" hidden>Sent emails</a>
+        <a id="goals-nav-forecast" href="/forecast" hidden>Forecast</a>
+        <span class="subtle" th:text="${username}">user</span>
+        <a href="/logout">Log out</a>
+      </nav>
+    </header>
+
+    <section class="panel goals-toolbar">
+      <div class="goals-toolbar-row">
+        <label class="goals-field">
+          <span class="subtle">Year</span>
+          <select id="goals-year"></select>
+        </label>
+        <label class="goals-field goals-field-grow" id="goals-employee-wrap" hidden>
+          <span class="subtle">Employee</span>
+          <select id="goals-employee"></select>
+        </label>
+        <div class="toolbar-actions">
+          <button id="goals-refresh" class="btn" type="button">Refresh</button>
+          <button id="goals-save" class="btn btn-primary" type="button" hidden>Save</button>
+        </div>
+      </div>
+      <p id="goals-status" class="subtle" aria-live="polite"></p>
+    </section>
+
+    <div id="goals-content"></div>
+
+    <div id="goals-checkin-backdrop" class="goals-modal-backdrop" hidden></div>
+    <div id="goals-checkin-modal" class="goals-modal" role="dialog" aria-modal="true" aria-labelledby="goals-checkin-modal-title" hidden>
+      <div class="goals-modal-inner panel">
+        <div class="goals-modal-header">
+          <h3 id="goals-checkin-modal-title">Check-in</h3>
+          <button type="button" id="goals-checkin-modal-dismiss" class="btn goals-modal-icon-btn" aria-label="Close">×</button>
+        </div>
+        <p class="subtle goals-modal-hint">Notes and meeting date apply to <strong>this goal only</strong>. People managers can edit employee and manager notes; employees edit their own note and can read the manager’s.</p>
+        <label class="stack goals-modal-field">
+          <span class="subtle">Meeting date</span>
+          <input type="date" id="goals-checkin-modal-date" class="checkin-date-input"/>
+        </label>
+        <label class="stack goals-modal-field">
+          <span class="subtle">Employee</span>
+          <textarea id="goals-checkin-modal-employee" class="goals-cell-input checkin-notes" rows="4" placeholder="Prep or reflections (employee)"></textarea>
+        </label>
+        <label class="stack goals-modal-field">
+          <span class="subtle">Manager</span>
+          <textarea id="goals-checkin-modal-manager" class="goals-cell-input checkin-notes" rows="4" placeholder="Discussion summary, agreements, next steps (manager)"></textarea>
+        </label>
+        <div class="goals-modal-actions">
+          <button type="button" id="goals-checkin-modal-delete" class="btn btn-danger goals-checkin-delete" hidden>Delete check-in</button>
+          <button type="button" id="goals-checkin-modal-cancel" class="btn">Cancel</button>
+          <button type="button" id="goals-checkin-modal-save" class="btn btn-primary" hidden>Save check-in</button>
+        </div>
+      </div>
+    </div>
+  </main>
+  <script src="/goals.js"></script>
+</body>
+</html>

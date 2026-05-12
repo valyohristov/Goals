@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${mode == 'add'} ? 'Add project' : 'Edit project'">Project</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<div class="container mt-4">
+    <h1 class="mb-4" th:text="${mode == 'add'} ? 'Add project' : 'Edit project'">Project</h1>
+    <form th:action="${mode == 'add'} ? @{/projects/add} : @{/projects/edit/{id}(id=${project.id})}"
+          th:object="${project}" method="post">
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <label for="name" class="form-label">Name</label>
+                <input class="form-control" type="text" id="name" th:field="*{name}" required>
+            </div>
+            <div class="col-md-3">
+                <label for="capacityFte" class="form-label">Capacity (FTE)</label>
+                <input class="form-control" type="number" id="capacityFte" th:field="*{capacityFte}"
+                       step="0.001" min="0.001" max="999" required>
+            </div>
+            <div class="col-md-3">
+                <label for="color" class="form-label">Color (optional, e.g. #4CAF50)</label>
+                <input class="form-control" type="text" id="color" th:field="*{color}" maxlength="32"
+                       placeholder="#RRGGBB">
+            </div>
+        </div>
+        <div class="d-flex justify-content-end mt-4">
+            <button type="submit" class="btn btn-success me-2">💾 Save</button>
+            <a th:href="@{/projects}" class="btn btn-primary">↩️ Cancel</a>
+        </div>
+    </form>
+</div>
+</body>
+</html>

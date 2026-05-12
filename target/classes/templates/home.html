@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title th:text="${title}">Goals</title>
+  <link rel="stylesheet" href="/styles.css"/>
+</head>
+<body>
+  <main class="container app-shell" id="home-app"
+        th:attr="data-initial-week=${initialWeekKey},
+                  data-read-only=${readOnly ? 'true' : 'false'},
+                  data-role=${role},
+                  data-can-edit-projects=${showFullAdminNav ? 'true' : 'false'}">
+    <header class="page-header">
+      <div>
+        <h1 th:text="${title}">Goals</h1>
+        <p class="subtle">
+          <span th:if="${readOnly}">Your FTE allocation across your projects (read-only)</span>
+          <span th:if="${!readOnly and teamLead}">Your team’s FTE allocation by project (you and your direct reports)</span>
+          <span th:if="${!readOnly and !teamLead}">Employee to project allocation by FTE</span>
+        </p>
+      </div>
+      <nav class="top-nav">
+        <th:block th:if="${showFullAdminNav and !readOnly}">
+          <a id="nav-employees" href="/admin/employees">Manage Employees</a>
+          <a id="nav-projects" href="/admin/projects">Manage Projects</a>
+          <a id="nav-notifications" href="/admin/notifications">Notifications</a>
+          <a id="nav-sent-emails" href="/admin/sent-emails">Sent emails</a>
+          <a id="nav-forecast" href="/forecast">3-Month Forecast</a>
+        </th:block>
+        <th:block th:if="${!showFullAdminNav and !readOnly}">
+          <a id="nav-employees" href="/admin/employees">Manage team</a>
+        </th:block>
+        <a id="nav-goals" href="/goals">Year goals</a>
+        <span class="subtle" th:text="${username}">user</span>
+        <a href="/logout">Log out</a>
+      </nav>
+    </header>
+
+    <section class="panel week-nav-panel">
+      <div class="week-nav">
+        <button id="week-prev" class="btn" type="button" aria-label="Previous week">&larr;</button>
+        <div>
+          <strong id="week-label">Week</strong>
+          <p class="subtle" id="week-subtitle"></p>
+        </div>
+        <button id="week-next" class="btn" type="button" aria-label="Next week">&rarr;</button>
+      </div>
+      <label class="week-copy-toggle" th:if="${showFullAdminNav}">
+        <input id="week-copy-toggle" type="checkbox"/>
+        Copy this week to next week automatically
+      </label>
+    </section>
+
+    <section class="stats-grid" id="summary-cards"></section>
+
+    <section class="panel">
+      <h2>Sankey Diagram</h2>
+      <p class="subtle">Left side shows employees, right side shows projects. Link width represents FTE allocation.
+        <th:block th:if="${!readOnly}"> Click a node to edit capacity, or click a link to edit that employee's project distribution.</th:block>
+      </p>
+      <div id="sankey-wrap" class="sankey-wrap"></div>
+    </section>
+
+    <section class="panel">
+      <h2>Utilization</h2>
+      <div id="utilization-table"></div>
+    </section>
+  </main>
+
+  <div id="home-allocation-backdrop" class="drawer-backdrop" hidden></div>
+  <aside id="home-allocation-drawer" class="drawer" hidden>
+    <div class="drawer-header">
+      <h2 id="home-allocation-title">Edit Allocations</h2>
+      <button id="home-allocation-close" class="btn" type="button">Close</button>
+    </div>
+    <p class="subtle" id="home-allocation-week-label"></p>
+    <form id="home-allocation-form" class="stack">
+      <div id="home-allocation-rows" class="stack"></div>
+      <button id="home-allocation-add-row" class="btn" type="button">Assign to Project</button>
+      <div class="toolbar-actions">
+        <button class="btn btn-primary" type="submit">Save Allocations</button>
+      </div>
+    </form>
+  </aside>
+
+  <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+  <script src="https://cdn.jsdelivr.net/npm/d3-sankey@0.12.3/dist/d3-sankey.min.js"></script>
+  <script src="/home.js"></script>
+</body>
+</html>

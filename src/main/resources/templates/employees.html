@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Manage Employees</title>
+  <link rel="stylesheet" href="/styles.css"/>
+</head>
+<body>
+  <main class="container app-shell" id="employees-app"
+        th:attr="data-initial-week=${initialWeekKey},
+                  data-can-add-employees=${canAddEmployees ? 'true' : 'false'},
+                  data-can-delete-employees=${canDeleteEmployees ? 'true' : 'false'}">
+    <header class="page-header">
+      <div>
+        <h1>Manage Employees</h1>
+        <p class="subtle">CRUD employees and allocate their FTE across projects.</p>
+      </div>
+      <nav class="top-nav">
+        <a id="employees-nav-home" href="/">Home</a>
+        <a id="employees-nav-projects" href="/admin/projects">Manage Projects</a>
+        <th:block th:if="${canAddEmployees}">
+          <a id="employees-nav-notifications" href="/admin/notifications">Notifications</a>
+          <a id="employees-nav-sent-emails" href="/admin/sent-emails">Sent emails</a>
+        </th:block>
+        <a id="employees-nav-forecast" href="/forecast">3-Month Forecast</a>
+        <a id="employees-nav-goals" href="/goals">Year goals</a>
+        <span class="subtle" th:text="${username}">user</span>
+        <a href="/logout">Log out</a>
+      </nav>
+    </header>
+
+    <section class="panel week-nav-panel">
+      <div class="week-nav">
+        <button id="employees-week-prev" class="btn" type="button" aria-label="Previous week">&larr;</button>
+        <div>
+          <strong id="employees-week-label">Week</strong>
+          <p class="subtle" id="employees-week-subtitle">Changes are saved for the selected week only.</p>
+        </div>
+        <button id="employees-week-next" class="btn" type="button" aria-label="Next week">&rarr;</button>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="toolbar">
+        <input id="employee-search" type="text" placeholder="Search employees..."/>
+        <div class="toolbar-actions">
+          <button id="employee-add" class="btn btn-primary" type="button">Add Employee</button>
+          <button id="employee-refresh" class="btn" type="button">Refresh</button>
+        </div>
+      </div>
+      <div id="employee-status" class="subtle"></div>
+      <div id="employee-list"></div>
+    </section>
+  </main>
+
+  <div id="employee-drawer-backdrop" class="drawer-backdrop" hidden></div>
+  <aside id="employee-drawer" class="drawer" hidden>
+    <div class="drawer-header">
+      <h2 id="employee-drawer-title">Add Employee</h2>
+      <button id="employee-close" class="btn" type="button">Close</button>
+    </div>
+    <form id="employee-form" class="stack">
+      <input type="hidden" id="employee-id"/>
+      <label>
+        Employee Name
+        <input id="employee-name" type="text" required/>
+      </label>
+      <label>
+        Manager
+        <select id="employee-manager">
+          <option value="">None</option>
+        </select>
+      </label>
+      <label class="checkbox-row">
+        <input id="employee-is-manager" type="checkbox"/>
+        <span>People manager (manages others)</span>
+      </label>
+      <div id="employee-login-username-row" class="employee-login-username-row" hidden th:if="${canSetPasswords}">
+        <label>
+          Login username (email-style)
+          <input id="employee-login-username" type="email" inputmode="email" autocomplete="username"
+                 placeholder="firstname.lastname@company.com"/>
+        </label>
+      </div>
+      <p class="subtle" id="employee-login-hint"></p>
+      <th:block th:if="${canSetPasswords}">
+        <label>
+          New password (min 6 characters, optional)
+          <input id="employee-password" type="password" autocomplete="new-password"/>
+        </label>
+        <label>
+          Confirm new password
+          <input id="employee-password-confirm" type="password" autocomplete="new-password"/>
+        </label>
+      </th:block>
+      <label>
+        Capacity (FTE)
+        <input id="employee-capacity" type="number" min="0" step="0.1" value="1" required/>
+      </label>
+
+      <h3>Project Allocations</h3>
+      <div id="allocation-rows" class="stack"></div>
+      <button id="allocation-add-row" class="btn" type="button">Add Allocation</button>
+
+      <div class="toolbar-actions">
+        <button class="btn btn-primary" type="submit">Save</button>
+        <button id="employee-delete" class="btn btn-danger" type="button" hidden>Delete</button>
+      </div>
+    </form>
+  </aside>
+  <script src="/employees.js"></script>
+</body>
+</html>

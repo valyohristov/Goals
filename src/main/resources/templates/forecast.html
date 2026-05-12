@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>3-Month Forecast</title>
+  <link rel="stylesheet" href="/styles.css"/>
+</head>
+<body>
+  <main class="container app-shell" id="forecast-app" th:attr="data-initial-week=${initialWeekKey}">
+    <header class="page-header">
+      <div>
+        <h1>3-Month Forecast</h1>
+        <p class="subtle">Weekly outlook for the next 13 weeks.</p>
+      </div>
+      <nav class="top-nav">
+        <a id="forecast-nav-home" href="/">Home</a>
+        <a id="forecast-nav-employees" href="/admin/employees">Manage Employees</a>
+        <a id="forecast-nav-projects" href="/admin/projects">Manage Projects</a>
+        <a id="forecast-nav-notifications" href="/admin/notifications">Notifications</a>
+        <a id="forecast-nav-sent-emails" href="/admin/sent-emails">Sent emails</a>
+        <a id="forecast-nav-goals" href="/goals">Year goals</a>
+        <span class="subtle" th:text="${username}">user</span>
+        <a href="/logout">Log out</a>
+      </nav>
+    </header>
+
+    <section class="panel week-nav-panel">
+      <div class="week-nav">
+        <button id="forecast-week-prev" class="btn" type="button" aria-label="Previous week">&larr;</button>
+        <div>
+          <strong id="forecast-week-label">Range</strong>
+          <p class="subtle">Showing next 13 weeks from selected start week.</p>
+        </div>
+        <button id="forecast-week-next" class="btn" type="button" aria-label="Next week">&rarr;</button>
+      </div>
+    </section>
+
+    <section class="stats-grid" id="forecast-summary"></section>
+
+    <section class="panel">
+      <h2>Project Risk Overview (Start Week)</h2>
+      <p class="subtle">Projects where demand and capacity are not aligned in the selected start week.</p>
+      <div id="forecast-project-issues"></div>
+    </section>
+
+    <section class="panel">
+      <h2>Utilization Trend</h2>
+      <p class="subtle">100% means allocated FTE equals available employee capacity.</p>
+      <div id="forecast-bars" class="forecast-bars"></div>
+    </section>
+
+    <section class="panel">
+      <h2>Week-by-Week Details</h2>
+      <div id="forecast-table"></div>
+    </section>
+  </main>
+  <script src="/forecast.js"></script>
+</body>
+</html>
