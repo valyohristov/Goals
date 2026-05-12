@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Manage Projects</title>
+  <link rel="stylesheet" href="/styles.css"/>
+</head>
+<body>
+  <main class="container app-shell" id="projects-app" th:attr="data-initial-week=${initialWeekKey}">
+    <header class="page-header">
+      <div>
+        <h1>Manage Projects</h1>
+        <p class="subtle">Maintain project list and target capacity in FTE.</p>
+      </div>
+      <nav class="top-nav">
+        <a id="projects-nav-home" href="/">Home</a>
+        <a id="projects-nav-employees" href="/admin/employees">Manage Employees</a>
+        <a id="projects-nav-notifications" href="/admin/notifications">Notifications</a>
+        <a id="projects-nav-sent-emails" href="/admin/sent-emails">Sent emails</a>
+        <a id="projects-nav-forecast" href="/forecast">3-Month Forecast</a>
+        <a id="projects-nav-goals" href="/goals">Year goals</a>
+        <span class="subtle" th:text="${username}">user</span>
+        <a href="/logout">Log out</a>
+      </nav>
+    </header>
+
+    <section class="panel week-nav-panel">
+      <div class="week-nav">
+        <button id="projects-week-prev" class="btn" type="button" aria-label="Previous week">&larr;</button>
+        <div>
+          <strong id="projects-week-label">Week</strong>
+          <p class="subtle" id="projects-week-subtitle">Changes are saved for the selected week only.</p>
+        </div>
+        <button id="projects-week-next" class="btn" type="button" aria-label="Next week">&rarr;</button>
+      </div>
+    </section>
+
+    <section class="panel">
+      <div class="toolbar">
+        <input id="project-search" type="text" placeholder="Search projects..."/>
+        <div class="toolbar-actions">
+          <button id="project-add" class="btn btn-primary" type="button">Add Project</button>
+          <button id="project-refresh" class="btn" type="button">Refresh</button>
+        </div>
+      </div>
+      <div id="project-status" class="subtle"></div>
+      <div id="project-list"></div>
+    </section>
+  </main>
+
+  <div id="project-drawer-backdrop" class="drawer-backdrop" hidden></div>
+  <aside id="project-drawer" class="drawer" hidden>
+    <div class="drawer-header">
+      <h2 id="project-drawer-title">Add Project</h2>
+      <button id="project-close" class="btn" type="button">Close</button>
+    </div>
+    <form id="project-form" class="stack">
+      <input type="hidden" id="project-id"/>
+      <label>
+        Project Name
+        <input id="project-name" type="text" required/>
+      </label>
+      <label>
+        Capacity (FTE)
+        <input id="project-capacity" type="number" min="0" step="0.1" value="1" required/>
+      </label>
+      <label>
+        Project Color
+        <input id="project-color" type="color" value="#8b5cf6"/>
+      </label>
+      <div class="toolbar-actions">
+        <button class="btn btn-primary" type="submit">Save</button>
+        <button id="project-delete" class="btn btn-danger" type="button" hidden>Delete</button>
+      </div>
+    </form>
+  </aside>
+  <script src="/projects.js"></script>
+</body>
+</html>
